@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTL CS · FY27 Strategy Hub</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ib:   #0077C5;
+    --ib-dk:#0C1F3F;
+    --ib-md:#0D47A1;
+    --ib-br:#1565C0;
+    --ib-lt:#1E88E5;
+    --ib-pl:#E3F2FD;
+    --white:#FFFFFF;
+    --off:  #F5F8FA;
+    --bdr:  #DDE5ED;
+    --tx:   #1A2E38;
+    --txm:  #546E7A;
+    --txl:  #8FA3AE;
+    --sg:   #1B8A5A; --sgb:#E6F4EF;
+    --sa:   #B45309; --sab:#FEF3DC;
+    --sb:   #0056A0; --sbb:#E3F0FB;
+    --sgr:  #607D8B; --sgrb:#ECEFF1;
+    --sp:   #5B2D9E; --spb:#EDE7F6;
+    --fn:   'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+    --r:8px; --sh:0 1px 4px rgba(0,0,0,.08);
+  }
+  body { font-family:var(--fn); color:var(--tx); background:var(--off); font-size:14px; line-height:1.6; }
+  .topbar { height:3px; background:var(--ib); }
+  .nav { background:var(--white); border-bottom:1px solid var(--bdr); position:sticky; top:0; z-index:200; box-shadow:0 1px 4px rgba(0,0,0,.07); }
+  .nav-in { max-width:1160px; margin:0 auto; padding:0 28px; display:flex; align-items:center; height:56px; }
+  .brand { display:flex; align-items:center; gap:16px; margin-right:40px; cursor:pointer; flex-shrink:0; }
+  .wm { font-family:var(--fn); font-size:20px; font-weight:900; letter-spacing:-.02em; color:var(--ib); text-transform:uppercase; line-height:1; user-select:none; }
+  .sep { width:1px; height:22px; background:var(--bdr); }
+  .prod { font-size:12px; font-weight:600; color:var(--txm); white-space:nowrap; }
+  .tabs { display:flex; align-items:stretch; height:100%; }
+  .tab { padding:0 16px; display:flex; align-items:center; font-size:13px; font-weight:500; color:var(--txm); cursor:pointer; border-bottom:2px solid transparent; transition:color .15s,border-color .15s; white-space:nowrap; user-select:none; }
+  .tab:hover { color:var(--ib); }
+  .tab.active { color:var(--ib); border-bottom-color:var(--ib); font-weight:700; }
+  .pill { margin-left:auto; background:var(--ib-pl); color:var(--ib); font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; letter-spacing:.05em; flex-shrink:0; }
+  .page { display:none; }
+  .page.active { display:block; }
+  .hero { background:linear-gradient(135deg,var(--ib-dk) 0%,var(--ib-md) 40%,var(--ib-br) 75%,var(--ib-lt) 100%); padding:60px 0 52px; }
+  .hi { max-width:1160px; margin:0 auto; padding:0 28px; }
+  .eye { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:rgba(255,255,255,.6); margin-bottom:14px; }
+  .hero h1 { font-size:36px; font-weight:900; color:var(--white); letter-spacing:-.03em; line-height:1.15; margin-bottom:14px; }
+  .hsub { font-size:15px; color:rgba(255,255,255,.72); max-width:540px; line-height:1.7; }
+  .hstats { display:flex; margin-top:44px; flex-wrap:wrap; }
+  .hstat { padding-right:36px; margin-right:36px; border-right:1px solid rgba(255,255,255,.15); }
+  .hstat:last-child { border-right:none; margin-right:0; }
+  .hsv { font-size:30px; font-weight:900; color:var(--white); letter-spacing:-.03em; line-height:1; }
+  .hsl { font-size:10px; color:rgba(255,255,255,.55); text-transform:uppercase; letter-spacing:.08em; margin-top:5px; }
+  .con { max-width:1160px; margin:0 auto; padding:52px 28px; }
+  .sh { margin-bottom:24px; }
+  .she { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--ib); margin-bottom:5px; }
+  .sht { font-size:22px; font-weight:800; color:var(--ib-dk); letter-spacing:-.02em; }
+  .shs { font-size:13px; color:var(--txm); margin-top:5px; max-width:520px; line-height:1.65; }
+  .shr { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .card { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:24px; box-shadow:var(--sh); }
+  .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .dv { border:none; border-top:1px solid var(--bdr); margin:48px 0; }
+  .bet { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); box-shadow:var(--sh); overflow:hidden; display:flex; flex-direction:column; }
+  .bbar { height:4px; }
+  .bbody { padding:24px; flex:1; }
+  .bnum { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; margin-bottom:8px; }
+  .bet h3 { font-size:16px; font-weight:800; color:var(--ib-dk); line-height:1.3; margin-bottom:10px; letter-spacing:-.01em; }
+  .bet p { font-size:13px; color:var(--txm); line-height:1.7; margin-bottom:18px; }
+  .brev { font-size:22px; font-weight:900; color:var(--ib-dk); letter-spacing:-.02em; }
+  .brl { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--txm); margin-top:2px; }
+  .btags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; }
+  .bfoot { padding:13px 24px; border-top:1px solid var(--bdr); background:var(--off); font-size:11px; color:var(--txm); font-weight:500; }
+  .tag { font-size:10px; font-weight:600; padding:3px 9px; border-radius:20px; letter-spacing:.02em; display:inline-block; }
+  .t1 { background:var(--ib-pl); color:var(--ib); }
+  .t2 { background:#E8EAF6; color:#3949AB; }
+  .t3 { background:var(--spb); color:var(--sp); }
+  .tg { background:var(--sgrb); color:var(--sgr); }
+  .badge { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; padding:3px 9px; border-radius:20px; letter-spacing:.04em; text-transform:uppercase; }
+  .badge::before { content:''; width:6px; height:6px; border-radius:50%; display:block; flex-shrink:0; }
+  .ba { background:var(--sgb); color:var(--sg); } .ba::before { background:var(--sg); }
+  .bd { background:var(--sab); color:var(--sa); } .bd::before { background:var(--sa); }
+  .bi { background:var(--sbb); color:var(--sb); } .bi::before { background:var(--sb); }
+  .bs { background:var(--sgrb); color:var(--sgr); } .bs::before { background:var(--sgr); }
+  .papers { display:flex; flex-direction:column; gap:10px; }
+  .pr { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:14px 18px; display:flex; align-items:center; gap:14px; box-shadow:var(--sh); }
+  .pric { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+  .prin { flex:1; min-width:0; }
+  .prn { font-size:13px; font-weight:700; color:var(--ib-dk); }
+  .prd { font-size:12px; color:var(--txm); margin-top:2px; line-height:1.5; }
+  .pcta { font-size:11px; font-weight:700; color:var(--ib); text-decoration:none; white-space:nowrap; padding:6px 14px; border:1.5px solid var(--ib); border-radius:6px; background:var(--white); transition:all .15s; }
+  .pcta:hover { background:var(--ib); color:var(--white); }
+  .pcta.off { color:var(--sgr); border-color:var(--bdr); background:var(--off); cursor:default; pointer-events:none; }
+  .ig-g { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .ig { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:22px; box-shadow:var(--sh); }
+  .ig.i1 { border-top:3px solid var(--ib); }
+  .ig.i2 { border-top:3px solid #3949AB; }
+  .ig.i3 { border-top:3px solid var(--sp); }
+  .igc { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; margin-bottom:7px; }
+  .i1 .igc { color:var(--ib); } .i2 .igc { color:#3949AB; } .i3 .igc { color:var(--sp); }
+  .ig h4 { font-size:14px; font-weight:800; color:var(--ib-dk); margin-bottom:8px; line-height:1.3; letter-spacing:-.01em; }
+  .ig p { font-size:12px; color:var(--txm); line-height:1.65; }
+  .pc-g { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .pc { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:20px; box-shadow:var(--sh); display:flex; gap:14px; }
+  .pcic { width:36px; height:36px; background:var(--ib-pl); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+  .pc h4 { font-size:13px; font-weight:700; color:var(--ib-dk); margin-bottom:5px; }
+  .pc p { font-size:12px; color:var(--txm); line-height:1.6; }
+  .csb { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:72px 28px; text-align:center; box-shadow:var(--sh); }
+  .csb-i { font-size:48px; margin-bottom:20px; }
+  .csb h3 { font-size:20px; font-weight:800; color:var(--ib-dk); margin-bottom:10px; letter-spacing:-.02em; }
+  .csb p { font-size:14px; color:var(--txm); max-width:460px; margin:0 auto 28px; line-height:1.7; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  .chip { background:var(--off); border:1px solid var(--bdr); border-radius:20px; padding:5px 16px; font-size:12px; font-weight:500; color:var(--txm); }
+  .acc-head { display:flex; align-items:center; justify-content:space-between; cursor:pointer; padding:20px 24px; background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); box-shadow:var(--sh); user-select:none; transition:background .15s; }
+  .acc-head:hover { background:var(--off); }
+  .acc-head.open { border-radius:var(--r) var(--r) 0 0; border-bottom:1px solid var(--bdr); }
+  .acc-left { display:flex; align-items:center; gap:16px; }
+  .acc-num { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
+  .acc-title { font-size:16px; font-weight:800; color:var(--ib-dk); letter-spacing:-.01em; }
+  .acc-meta { font-size:12px; color:var(--txm); margin-top:2px; }
+  .acc-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  .acc-rev { font-size:14px; font-weight:800; color:var(--ib-dk); }
+  .acc-chevron { font-size:18px; color:var(--txm); transition:transform .25s; line-height:1; }
+  .acc-chevron.open { transform:rotate(180deg); }
+  .acc-body { display:none; background:var(--white); border:1px solid var(--bdr); border-top:none; border-radius:0 0 var(--r) var(--r); padding:0 24px 24px; }
+  .acc-body.open { display:block; }
+  .acc-intro { font-size:13px; color:var(--txm); line-height:1.75; padding:20px 0 20px; border-bottom:1px solid var(--bdr); margin-bottom:20px; }
+  .acc-wrap { display:flex; flex-direction:column; gap:10px; }
+  .acc-item { display:flex; flex-direction:column; gap:16px; }
+  .gv { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:22px; box-shadow:var(--sh); }
+  .gv h4 { font-size:13px; font-weight:700; color:var(--ib-dk); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .gv ul { list-style:none; }
+  .gv li { font-size:12px; color:var(--txm); padding:6px 0; border-bottom:1px solid var(--bdr); display:flex; gap:8px; align-items:flex-start; }
+  .gv li:last-child { border-bottom:none; }
+  .gv li::before { content:'→'; color:var(--ib); font-size:11px; flex-shrink:0; margin-top:2px; }
+  .tr-g { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .trc { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); padding:22px; box-shadow:var(--sh); }
+  .trl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; }
+  .trt { font-size:15px; font-weight:800; color:var(--ib-dk); margin-bottom:8px; letter-spacing:-.01em; }
+  .trd { font-size:12px; color:var(--txm); line-height:1.6; margin-bottom:14px; }
+  .trtags { display:flex; flex-wrap:wrap; gap:6px; }
+  .tbl { background:var(--white); border:1px solid var(--bdr); border-radius:var(--r); overflow:hidden; box-shadow:var(--sh); }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { background:var(--off); color:var(--ib-dk); font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.07em; padding:11px 16px; text-align:left; border-bottom:2px solid var(--bdr); }
+  td { padding:12px 16px; border-bottom:1px solid var(--bdr); color:var(--tx); vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  .btn { background:var(--ib); color:var(--white); border:none; border-radius:6px; padding:10px 22px; font-family:var(--fn); font-size:13px; font-weight:700; cursor:pointer; transition:background .15s; }
+  .btn:hover { background:var(--ib-md); }
+  .footer { text-align:center; padding:28px; font-size:11px; color:var(--txl); border-top:1px solid var(--bdr); background:var(--white); margin-top:40px; }
+  .fwm { font-size:14px; font-weight:900; color:var(--ib); text-transform:uppercase; letter-spacing:-.01em; display:block; margin-bottom:6px; }
+  @media(max-width:860px){
+    .g3,.ig-g,.pc-g,.tr-g{grid-template-columns:1fr;}
+    .g2,.gv-g{grid-template-columns:1fr;}
+    .hero h1{font-size:26px;}
+    .shr{flex-direction:column;align-items:flex-start;}
+    .nav-in{padding:0 14px;}
+    .con{padding:28px 14px;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand" onclick="showPage('home')">
+      <span class="wm">INTUIT</span>
+      <div class="sep"></div>
+      <span class="prod">International Customer Success</span>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="showPage('home')"      id="tab-home">Home</div>
+      <div class="tab"        onclick="showPage('strategy')"  id="tab-strategy">Strategy</div>
+      <div class="tab"        onclick="showPage('opmodel')"   id="tab-opmodel">Operating Model</div>
+      <div class="tab"        onclick="showPage('releases')"  id="tab-releases">Release Readiness</div>
+      <div class="tab"        onclick="showPage('execution')" id="tab-execution">Execution &amp; Governance</div>
+    </div>
+    <div class="pill">FY27</div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero"><div class="hi">
+    <div class="eye">Our International Customer Success Vision</div>
+    <h1>Deliver world class customer<br>experiences that drive retention<br>and platform growth.</h1>
+    <div class="hsub" style="margin-top:20px;color:rgba(255,255,255,.55);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em">We will achieve this by:</div>
+    <ol style="margin-top:14px;list-style:none;display:flex;flex-direction:column;gap:8px">
+      <li style="color:rgba(255,255,255,.88);font-size:15px;display:flex;gap:12px;align-items:flex-start"><span style="color:#4ADE80;font-weight:700;font-size:15px;flex-shrink:0">1.</span>Championing excellence in the end-to-end customer journey</li>
+      <li style="color:rgba(255,255,255,.88);font-size:15px;display:flex;gap:12px;align-items:flex-start"><span style="color:#4ADE80;font-weight:700;font-size:15px;flex-shrink:0">2.</span>Accelerating value realisation to deepen customer loyalty</li>
+      <li style="color:rgba(255,255,255,.88);font-size:15px;display:flex;gap:12px;align-items:flex-start"><span style="color:#4ADE80;font-weight:700;font-size:15px;flex-shrink:0">3.</span>Fostering exceptionally talented, connected and agile teams</li>
+    </ol>
+  </div></div>
+  <div class="con">
+    <!-- About this hub -->
+    <div class="sh"><div class="she">About This Hub</div><div class="sht">What you'll find here</div></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:0">
+      <div class="card" style="border-top:3px solid var(--ib)">
+        <div style="font-size:22px;margin-bottom:10px">📄</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ib-dk);margin-bottom:6px">Strategy</div>
+        <p style="font-size:12px;color:var(--txm);line-height:1.6">The three Big Bets, ICS Input Goals, and all INTL CS strategy papers — organised by bet with status and document links.</p>
+        <div style="margin-top:12px"><button onclick="showPage('strategy')" style="font-size:11px;font-weight:700;color:var(--ib);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fn)">Go to Strategy →</button></div>
+      </div>
+      <div class="card" style="border-top:3px solid #3949AB">
+        <div style="font-size:22px;margin-bottom:10px">🏗️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ib-dk);margin-bottom:6px">Operating Model</div>
+        <p style="font-size:12px;color:var(--txm);line-height:1.6">How INTL CS organises to deliver the strategy — team structure, roles, decision rights, and governance framework.</p>
+        <div style="margin-top:12px"><button onclick="showPage('opmodel')" style="font-size:11px;font-weight:700;color:var(--ib);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fn)">Go to Operating Model →</button></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sp)">
+        <div style="font-size:22px;margin-bottom:10px">📋</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ib-dk);margin-bottom:6px">Release Readiness</div>
+        <p style="font-size:12px;color:var(--txm);line-height:1.6">Central destination for product and platform release readiness — expert training, regional impact assessments, and launch playbooks.</p>
+        <div style="margin-top:12px"><button onclick="showPage('releases')" style="font-size:11px;font-weight:700;color:var(--ib);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fn)">Go to Releases →</button></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--sg)">
+        <div style="font-size:22px;margin-bottom:10px">📈</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ib-dk);margin-bottom:6px">Execution &amp; Governance</div>
+        <p style="font-size:12px;color:var(--txm);line-height:1.6">Planning rhythms, initiative triage, governance forums, and portfolio reviews that keep strategy delivery on track.</p>
+        <div style="margin-top:12px"><button onclick="showPage('execution')" style="font-size:11px;font-weight:700;color:var(--ib);background:none;border:none;cursor:pointer;padding:0;font-family:var(--fn)">Go to Governance →</button></div>
+      </div>
+    </div>
+    <div class="dv"></div>
+    <div class="sh shr">
+      <div><div class="she">FY27 Priorities</div><div class="sht">The Three Big Bets</div><div class="shs">The commercial and customer outcomes INTL CS is accountable for this year.</div></div>
+      <button class="btn" onclick="showPage('strategy')">View Full Strategy →</button>
+    </div>
+    <div class="g3">
+      <div class="bet"><div class="bbar" style="background:var(--ib)"></div><div class="bbody">
+        <div class="bnum" style="color:var(--ib)">Big Bet 1</div>
+        <h3>Scale the AI-Native Platform</h3>
+        <p>Think unconstrained on human-assisted programmes. Onboarding, saves, activation, serve-to-sell — if there is positive ROI, we do more.</p>
+        <div class="btags"><span class="tag t1">Onboarding</span><span class="tag t1">Saves</span><span class="tag t1">Activation</span><span class="tag t1">Serve-to-Sell</span></div>
+        <div class="brev">$7.6M</div><div class="brl">In-year revenue target</div>
+      </div><div class="bfoot">IG01 · IG02 · IG03 · 4 strategy papers</div></div>
+
+      <div class="bet"><div class="bbar" style="background:#3949AB"></div><div class="bbody">
+        <div class="bnum" style="color:#3949AB">Big Bet 2</div>
+        <h3>Payments</h3>
+        <p>Wrap G&R and Product Support programmes around the payments proposition as it evolves across international markets.</p>
+        <div class="btags"><span class="tag t2">Canada</span><span class="tag t2">UK</span><span class="tag t2">Day 0–90</span><span class="tag t2">Activation</span></div>
+        <div class="brev">$87K → $349K</div><div class="brl">In-year to year-3 retained revenue</div>
+      </div><div class="bfoot">IG03 · 1 strategy paper</div></div>
+
+      <div class="bet"><div class="bbar" style="background:var(--sp)"></div><div class="bbody">
+        <div class="bnum" style="color:var(--sp)">Big Bet 3</div>
+        <h3>Mid-Market &amp; Accountants</h3>
+        <p>Expansion across the end-to-end post-sales journey via CSMs, PSMs, onboarding, implementation, integration, and migration. CS owns the Accountant as a customer segment.</p>
+        <div class="btags"><span class="tag t3">IIM Services</span><span class="tag t3">PSM</span><span class="tag t3">PLG</span></div>
+        <div class="brev">$9.0M</div><div class="brl">3-year net position</div>
+      </div><div class="bfoot">IG03 · 3 strategy papers</div></div>
+    </div>
+    <div class="dv"></div>
+    <div class="sh"><div class="she">Strategy Library</div><div class="sht">Latest Strategy Papers</div><div class="shs">Quick access to the most recently available papers.</div></div>
+    <div class="papers">
+      <div class="pr"><div class="pric" style="background:var(--ib-pl)">💰</div><div class="prin"><div class="prn">Incentive Strategy FY27</div><div class="prd">SER · Saves · Activation · 12.5% ARPC anchoring · Zero-unit SPIF · Bet 1</div></div><span class="badge ba">Available</span><a class="pcta" href="https://docs.google.com/document/d/1lHcjGRO3FxMii49cDVJdXZIA44kPD_aZ/edit" target="_blank">Open →</a></div>
+      <div class="pr"><div class="pric" style="background:var(--spb)">🏦</div><div class="prin"><div class="prn">MM &amp; Accountant Post-Sales Strategy</div><div class="prd">IIM Services · PSM Coverage · Practice-Led Growth · $9.0M 3-year net · Bet 3</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+      <div class="pr"><div class="pric" style="background:var(--ib-pl)">📱</div><div class="prin"><div class="prn">Product Support Strategy</div><div class="prd">Operational excellence · CX deepening · Expert tooling · MM &amp; Accountant differentiation · Bet 1</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+    </div>
+  </div>
+  <div class="footer"><span class="fwm">INTUIT</span>International Customer Success · FY27 Strategy Hub · Internal Use Only</div>
+</div>
+
+<!-- STRATEGY -->
+<div class="page" id="page-strategy">
+  <div class="hero"><div class="hi">
+    <div class="eye">FY27 Strategy</div>
+    <h1>Where INTL CS is placing<br>its bets in FY27.</h1>
+    <div class="hsub">Three bets, each targeting a distinct revenue and customer opportunity. Bet 1 scales what's already working. Bet 2 wraps CS programmes around the payments proposition as it matures. Bet 3 opens a channel — the Accountant — that SER alone can't reach. Together they add up to $12.7M in revenue and a meaningfully stronger competitive position.</div>
+  </div></div>
+  <div class="con">
+    <div class="sh"><div class="she">Enterprise Alignment</div><div class="sht">ICS FY27 Input Goals</div><div class="shs">Every initiative ladders to one of these three goals. Defined at the <a href="https://docs.google.com/presentation/d/1rLMXj-dN_IgbtSE7FY1r9aZYqq_22Y9ngt2O1H913Us/edit#slide=id.g3e813434320_6_184" target="_blank" style="color:var(--ib);font-weight:600;text-decoration:none">ICS Forum Q4 2026 ↗</a></div></div>
+    <div class="ig-g">
+      <div class="ig i1">
+        <div class="igc">ICS-IG01</div>
+        <h4>Reinventing GBSG End-to-End Customer Resolution</h4>
+        <p style="margin-bottom:14px">Redevelop human support at scale so well-equipped experts resolve issues quickly, with fewer contacts and less customer effort. Harden feedback loops to eliminate all friction created upstream.</p>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--ib);font-weight:700;flex-shrink:0">01</span>Eliminate transfers &amp; seams with tiered support and case management</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--ib);font-weight:700;flex-shrink:0">02</span>Equip every expert with tools to resolve issues faster</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--ib);font-weight:700;flex-shrink:0">03</span>Formalise proactive service recovery with named concierges</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--ib);font-weight:700;flex-shrink:0">04</span>Surface cross-functional friction via Signal insights</div>
+        </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bdr);font-size:11px;font-weight:700;color:var(--ib-dk)">FY27 Goal: Full Resolution Score 46% → 79%</div>
+      </div>
+      <div class="ig i2">
+        <div class="igc">ICS-IG02</div>
+        <h4>Customer Success at Scale</h4>
+        <p style="margin-bottom:14px">Transform the cost structure of human intelligence services to deliver better outcomes at materially lower unit cost.</p>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:#3949AB;font-weight:700;flex-shrink:0">01</span>Stand up AI-powered self-serve &amp; agentic experiences</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:#3949AB;font-weight:700;flex-shrink:0">02</span>Multiply expert productivity with copilot and automation</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:#3949AB;font-weight:700;flex-shrink:0">03</span>Reshape the Expert Network by optimising sourcing, geography, and skill mix</div>
+        </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bdr);font-size:11px;font-weight:700;color:var(--ib-dk)">FY27 Goal: Expert AI Help Tool adoption 12K → 15K (+25%)</div>
+      </div>
+      <div class="ig i3">
+        <div class="igc">ICS-IG03</div>
+        <h4>Expert-Led Services</h4>
+        <p style="margin-bottom:14px">Make expert-led services the engine for customer confidence, ecosystem growth, and lifetime value across bookkeeping, tax, and product support.</p>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--sp);font-weight:700;flex-shrink:0">01</span>Embed expert guidance inside QuickBooks at critical lifecycle moments</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--sp);font-weight:700;flex-shrink:0">02</span>Drive ecosystem adoption through expert recommendations</div>
+          <div style="font-size:11px;color:var(--txm);display:flex;gap:7px"><span style="color:var(--sp);font-weight:700;flex-shrink:0">03</span>Rethink hiring, incentives, and coaching for an AI-enabled expert workforce</div>
+        </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bdr);font-size:11px;font-weight:700;color:var(--ib-dk)">FY27 Goal: Money &amp; Workforce 68K → 119K · Retained QBO 40K → 63K</div>
+      </div>
+    </div>
+    <div class="dv"></div>
+    <div class="sh"><div class="she">FY27 Priorities</div><div class="sht">The Three Big Bets</div><div class="shs">Select a bet to see the strategic context and linked strategy papers.</div></div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+    <!-- BET 1 -->
+    <div>
+      <div class="acc-head open" onclick="toggleAcc('b1')">
+        <div class="acc-left">
+          <div style="width:4px;height:44px;background:var(--ib);border-radius:2px;flex-shrink:0"></div>
+          <div>
+            <div class="acc-num" style="color:var(--ib)">Big Bet 1</div>
+            <div class="acc-title">Scale the AI-Native Platform</div>
+            <div class="acc-meta">Supports IG01 · IG02 · IG03 · 4 papers</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <div style="text-align:right"><div class="acc-rev">$7.6M</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--txm)">In-year target</div></div>
+          <div class="acc-chevron open" id="chev-b1">▾</div>
+        </div>
+      </div>
+      <div class="acc-body open" id="acc-b1">
+        <div class="acc-intro">Think unconstrained on human-assisted programmes. Onboarding, saves, activation, serve-to-sell — if there is positive ROI, we scale it. Product Support is the trust and accountability layer, the H in AI+HI. Smarter SER, Incentives, and Activation are the commercial engines on top. Together they deliver $7.6M in-year through expert performance, matching logic, and incentive design — without requiring new infrastructure.</div>
+        <div class="acc-wrap">
+          <div class="pr"><div class="pric" style="background:var(--ib-pl)">📱</div><div class="prin"><div class="prn">Product Support Strategy</div><div class="prd">Five priorities: operational excellence, CX deepening, expert tooling, partner footprint, MM &amp; Accountant differentiation.</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+          <div class="pr"><div class="pric" style="background:var(--ib-pl)">🎯</div><div class="prin"><div class="prn">Smarter SER</div><div class="prd">Two-sided matching — customer propensity × expert performance — inside the existing Salesforce SER widget. $3.6M incremental revenue.</div></div><span class="badge ba">Available</span><a class="pcta" href="https://docs.google.com/document/d/1rNqutvkLsECYRF3v5k8wcu67Qv8yudDA/edit" target="_blank">Open →</a></div>
+          <div class="pr"><div class="pric" style="background:var(--spb)">💰</div><div class="prin"><div class="prn">Incentive Strategy FY27</div><div class="prd">12.5% of in-year ARPC across SER, Saves, and Activation. Zero-unit SPIF. Big Prize Season uplift. $2.5M incremental net.</div></div><span class="badge ba">Available</span><a class="pcta" href="https://docs.google.com/document/d/1lHcjGRO3FxMii49cDVJdXZIA44kPD_aZ/edit" target="_blank">Open →</a></div>
+          <div class="pr"><div class="pric" style="background:#FFF8E1">⚡</div><div class="prin"><div class="prn">Activation Strategy</div><div class="prd">5MIMO within 90 days — stall-triggered interventions and group lab sessions. +$402K retained revenue.</div></div><span class="badge ba">Available</span><a class="pcta" href="https://docs.google.com/document/d/1-ypiQ0z6zwcI3D7gwSMnjHl7O7QOw_gK/edit" target="_blank">Open →</a></div>
+        </div>
+      </div>
+    </div>
+    <!-- BET 2 -->
+    <div>
+      <div class="acc-head" onclick="toggleAcc('b2')">
+        <div class="acc-left">
+          <div style="width:4px;height:44px;background:#3949AB;border-radius:2px;flex-shrink:0"></div>
+          <div>
+            <div class="acc-num" style="color:#3949AB">Big Bet 2</div>
+            <div class="acc-title">Payments</div>
+            <div class="acc-meta">Supports IG03 · 1 paper</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <div style="text-align:right"><div class="acc-rev">$87K → $349K</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--txm)">In-year to year-3</div></div>
+          <div class="acc-chevron" id="chev-b2">▾</div>
+        </div>
+      </div>
+      <div class="acc-body" id="acc-b2">
+        <div class="acc-intro">Wrap G&amp;R and Product Support programmes around the payments proposition as it evolves across international markets. Merchants who complete a first transaction within 30 days retain at 80% vs. 60% for those who don't — a 20-point gap. Currently 70% of new merchants never transact in month one. This bet closes that gap with a phased activation programme combining scale CSM outreach, digital channels, and churn-intent detection. Revenue compounds as Money products mature in the UK.</div>
+        <div class="acc-wrap">
+          <div class="pr"><div class="pric" style="background:#E8EAF6">💳</div><div class="prin"><div class="prn">Money (Activation &amp; Retention) Strategy</div><div class="prd">Three-phase activation: Days 0–30 (first transaction), 31–60 (habit), 61–90 (save at-risk). $87K in-year scaling to $349K at year 3.</div></div><span class="badge ba">Available</span><a class="pcta" href="https://docs.google.com/document/d/1GLMjhNG-YJ3afZAperI2BUzOUpmRe102TXc0r8JowM4/edit?tab=t.0#heading=h.g9qmxm32ye8s" target="_blank">Open →</a></div>
+        </div>
+      </div>
+    </div>
+    <!-- BET 3 -->
+    <div>
+      <div class="acc-head" onclick="toggleAcc('b3')">
+        <div class="acc-left">
+          <div style="width:4px;height:44px;background:var(--sp);border-radius:2px;flex-shrink:0"></div>
+          <div>
+            <div class="acc-num" style="color:var(--sp)">Big Bet 3</div>
+            <div class="acc-title">Mid-Market &amp; Accountants</div>
+            <div class="acc-meta">Supports IG03 · 4 papers</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <div style="text-align:right"><div class="acc-rev">$9.0M</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--txm)">3-year net</div></div>
+          <div class="acc-chevron" id="chev-b3">▾</div>
+        </div>
+      </div>
+      <div class="acc-body" id="acc-b3">
+        <div class="acc-intro">CS owns the Accountant as a customer segment. Three pillars: IIM Services removes migration friction entirely — making switching to QBO predictable and low-risk. Partner Success Managers deploy at the practice level, where portfolio ARR justifies investment and upgrade decisions are made by Accountants, not by individual customers who contact support. Practice-Led Growth then activates that relationship commercially, driving P/E→Advanced upgrades and Payroll/Payments attach across 630K accountant-channeled customers. This is the channel SER alone cannot reach.</div>
+        <div class="acc-wrap">
+          <div class="pr"><div class="pric" style="background:var(--spb)">🏦</div><div class="prin"><div class="prn">MM &amp; Accountant Post-Sales Strategy</div><div class="prd">IIM Services + PSM Coverage + Practice-Led Growth. $9.0M 3-year net. 99% ROI. Month 14 payback.</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+          <div class="pr"><div class="pric" style="background:var(--spb)">🤝</div><div class="prin"><div class="prn">Accountant Lifecycle Management</div><div class="prd">End-to-end accountant post-sales journey — onboarding, implementation, migration, and ongoing relationship management.</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+          <div class="pr"><div class="pric" style="background:var(--spb)">🔄</div><div class="prin"><div class="prn">Partner Success Management</div><div class="prd">PSM coverage model, partner tiers, Practice-Led Growth, and portfolio health framework.</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+          <div class="pr"><div class="pric" style="background:var(--spb)">⚙️</div><div class="prin"><div class="prn">IIM Services</div><div class="prd">Integration, Implementation &amp; Migration — expert-delivered professional services removing switching friction for Accountants and Mid-Market customers.</div></div><span class="badge bi">In Development</span><a class="pcta off">Coming →</a></div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="dv"></div>
+    <div class="sh"><div class="she">Quick Reference</div><div class="sht">Strategy Library</div><div class="shs">All FY27 strategy papers organised by Big Bet. Each bet represents a distinct commercial opportunity — the programmes within it are the workstreams INTL CS is running to capture it. Papers link directly to the source document when available.</div></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Big Bet</th><th>Programme</th><th>Paper</th><th>Status</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag t1">Bet 1 — AI-Native Platform</span></td><td>Product Support</td><td>Product Support Strategy</td><td><span class="badge bi">In Development</span></td><td><span style="font-size:11px;color:var(--txl)">Coming soon</span></td></tr>
+        <tr><td><span class="tag t1">Bet 1 — AI-Native Platform</span></td><td>Smarter SER</td><td>Smarter SER Strategy</td><td><span class="badge ba">Available</span></td><td><a href="https://docs.google.com/document/d/1rNqutvkLsECYRF3v5k8wcu67Qv8yudDA/edit" target="_blank" style="font-size:11px;font-weight:700;color:var(--ib);text-decoration:none">Open →</a></td></tr>
+        <tr><td><span class="tag t1">Bet 1 — AI-Native Platform</span></td><td>Incentives</td><td>Incentive Strategy FY27</td><td><span class="badge ba">Available</span></td><td><a href="https://docs.google.com/document/d/1lHcjGRO3FxMii49cDVJdXZIA44kPD_aZ/edit" target="_blank" style="font-size:11px;font-weight:700;color:var(--ib);text-decoration:none">Open →</a></td></tr>
+        <tr><td><span class="tag t1">Bet 1 — AI-Native Platform</span></td><td>Activation</td><td>Activation Strategy</td><td><span class="badge ba">Available</span></td><td><a href="https://docs.google.com/document/d/1-ypiQ0z6zwcI3D7gwSMnjHl7O7QOw_gK/edit" target="_blank" style="font-size:11px;font-weight:700;color:var(--ib);text-decoration:none">Open →</a></td></tr>
+        <tr><td><span class="tag t2">Bet 2 — Payments</span></td><td>Money Retention</td><td>Money (Activation &amp; Retention) Strategy</td><td><span class="badge ba">Available</span></td><td><a href="https://docs.google.com/document/d/1GLMjhNG-YJ3afZAperI2BUzOUpmRe102TXc0r8JowM4/edit?tab=t.0#heading=h.g9qmxm32ye8s" target="_blank" style="font-size:11px;font-weight:700;color:var(--ib);text-decoration:none">Open →</a></td></tr>
+        <tr><td><span class="tag t3">Bet 3 — Mid-Market &amp; Accountants</span></td><td>MM &amp; Accountant Post-Sales</td><td>MM &amp; Accountant Post-Sales Strategy</td><td><span class="badge bi">In Development</span></td><td><span style="font-size:11px;color:var(--txl)">Coming soon</span></td></tr>
+        <tr><td><span class="tag t3">Bet 3 — Mid-Market &amp; Accountants</span></td><td>Accountant Lifecycle</td><td>Accountant Lifecycle Management</td><td><span class="badge bi">In Development</span></td><td><span style="font-size:11px;color:var(--txl)">Coming soon</span></td></tr>
+        <tr><td><span class="tag t3">Bet 3 — Mid-Market &amp; Accountants</span></td><td>Partner Success</td><td>Partner Success Management</td><td><span class="badge bi">In Development</span></td><td><span style="font-size:11px;color:var(--txl)">Coming soon</span></td></tr>
+        <tr><td><span class="tag t3">Bet 3 — Mid-Market &amp; Accountants</span></td><td>IIM Services</td><td>IIM Services Strategy</td><td><span class="badge bi">In Development</span></td><td><span style="font-size:11px;color:var(--txl)">Coming soon</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="footer"><span class="fwm">INTUIT</span>International Customer Success · FY27 Strategy Hub · Internal Use Only</div>
+</div>
+
+<!-- OPERATING MODEL -->
+<div class="page" id="page-opmodel">
+  <div class="hero"><div class="hi">
+    <div class="eye">Operating Model</div>
+    <h1>How INTL CS organises<br>to deliver the strategy.</h1>
+    <div class="hsub">Team structure, roles and responsibilities, governance model, decision framework, and metrics — the structural backbone of FY27 execution.</div>
+  </div></div>
+  <div class="con">
+    <div class="csb">
+      <div class="csb-i">🏗️</div>
+      <h3>Operating Model — Coming Soon</h3>
+      <p>The FY27 Operating Model will define how INTL CS organises around the Big Bets, allocates ownership, manages cross-functional dependencies, and delivers customer outcomes at scale.</p>
+      <div class="chips"><span class="chip">Team Structure</span><span class="chip">Roles &amp; Responsibilities</span><span class="chip">Governance Model</span><span class="chip">Decision Framework</span><span class="chip">Metrics &amp; Reporting</span></div>
+    </div>
+  </div>
+  <div class="footer"><span class="fwm">INTUIT</span>International Customer Success · FY27 Strategy Hub · Internal Use Only</div>
+</div>
+
+<!-- RELEASE READINESS -->
+<div class="page" id="page-releases">
+  <div class="hero"><div class="hi">
+    <div class="eye">Product Release Readiness</div>
+    <h1>Prepare INTL CS for every<br>product and platform change.</h1>
+    <div class="hsub">The central destination for release readiness — expert training, regional impact assessments, customer communications, and launch playbooks.</div>
+  </div></div>
+  <div class="con">
+    <div class="csb">
+      <div class="csb-i">📋</div>
+      <h3>Release Readiness — Coming Soon</h3>
+      <p>This section will become the central destination for all INTL CS product and platform release readiness. Content will be published here as releases are confirmed and readiness work begins.</p>
+      <div class="chips"><span class="chip">Upcoming Releases</span><span class="chip">Release Calendar</span><span class="chip">Readiness Plans</span><span class="chip">Regional Impact Assessments</span><span class="chip">Expert Training</span><span class="chip">Customer Communications</span><span class="chip">Launch Playbooks</span></div>
+    </div>
+  </div>
+  <div class="footer"><span class="fwm">INTUIT</span>International Customer Success · FY27 Strategy Hub · Internal Use Only</div>
+</div>
+
+<!-- EXECUTION & GOVERNANCE -->
+<div class="page" id="page-execution">
+  <div class="hero"><div class="hi">
+    <div class="eye">Execution &amp; Governance</div>
+    <h1>How INTL CS executes strategy<br>and governs delivery.</h1>
+    <div class="hsub">Planning rhythms, governance forums, partner forums, and portfolio reviews that keep execution accountable and disciplined.</div>
+  </div></div>
+  <div class="con">
+
+    <!-- PLANNING -->
+    <div class="sh"><div class="she">Planning Rhythm</div><div class="sht">Annual &amp; Quarterly Cadences</div></div>
+    <div class="g2">
+      <div class="gv"><h4><span>📅</span> Annual Planning</h4><ul>
+        <li>FY strategy shareout across all markets</li>
+        <li>Big Bet definition and prioritisation</li>
+        <li>Investment case submissions</li>
+        <li>VEP ask consolidation and submission</li>
+        <li>Finance gate review for blocked initiatives</li>
+      </ul></div>
+      <div class="gv"><h4><span>🔄</span> Quarterly Planning</h4><ul>
+        <li>Big Bet strategic initiative review</li>
+        <li>G&amp;R roadmap prioritisation and planning</li>
+        <li>Cross-market learning loops</li>
+        <li>Regional lead operating rhythm check-ins</li>
+      </ul></div>
+    </div>
+
+    <div class="dv"></div>
+
+    <!-- PORTFOLIO REVIEW -->
+    <div class="sh"><div class="she">Portfolio Reviews</div><div class="sht">Big Bet &amp; Initiative Reviews</div><div class="shs">The cadence and structure for how INTL CS reviews progress against the three Big Bets and tracks initiative health.</div></div>
+    <div class="csb" style="padding:48px 28px">
+      <div class="csb-i">📊</div>
+      <h3>Review Cadence — Coming Soon</h3>
+      <p>The portfolio review cadence is being designed as part of the FY27 operating model. Once agreed, this section will document the rhythm, attendees, inputs, and outputs for Big Bet and initiative reviews.</p>
+      <div class="chips">
+        <span class="chip">Quarterly Big Bet Reviews</span>
+        <span class="chip">Initiative Health RAG</span>
+        <span class="chip">Stop / Start / Continue</span>
+        <span class="chip">FY27 Experiment Registry</span>
+        <span class="chip">Big Prize Season Tracking</span>
+      </div>
+    </div>
+
+    <div class="dv"></div>
+
+    <!-- INITIATIVE TRIAGE -->
+    <div class="sh"><div class="she">Execution Framework</div><div class="sht">Initiative Triage</div><div class="shs">How INTL CS categorises FY27 initiatives to ensure honest prioritisation and clear ownership.</div></div>
+    <div class="csb" style="padding:48px 28px">
+      <div class="csb-i">🗂️</div>
+      <h3>Initiative Triage Framework — Coming Soon</h3>
+      <p>The initiative triage framework is being finalised alongside the FY27 operating model. It will define how initiatives are categorised, resourced, and tracked across the year.</p>
+      <div class="chips">
+        <span class="chip">CS-Owned initiatives</span>
+        <span class="chip">VEP-Dependent</span>
+        <span class="chip">Finance-Gated</span>
+        <span class="chip">Prioritisation criteria</span>
+        <span class="chip">Ownership model</span>
+      </div>
+    </div>
+
+    <div class="dv"></div>
+
+    <!-- FORUMS -->
+    <div class="sh"><div class="she">Partner &amp; Governance Forums</div><div class="sht">Regular Touchpoints</div><div class="shs">Standing forums that keep cross-functional execution coordinated. Each forum has a defined purpose, owner, and cadence.</div></div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+
+      <!-- VEP FORUM -->
+      <div style="background:var(--white);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)">
+        <div style="padding:16px 20px;border-left:4px solid var(--ib);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="flex:1;min-width:240px">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ib);margin-bottom:5px">VEP Forum</div>
+            <div style="font-size:15px;font-weight:800;color:var(--ib-dk);margin-bottom:6px;letter-spacing:-.01em">Virtual Expert Platform</div>
+            <div style="font-size:12px;color:var(--txm);line-height:1.6">The forum through which INTL CS submits and tracks all technology dependencies. VEP owns the build decisions on tooling — this forum is how CS ensures INTL requirements are in scope and not deprioritised in favour of US-only builds.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:180px">
+            <div style="font-size:11px;color:var(--txm)"><span style="font-weight:700;color:var(--ib-dk)">Who &nbsp;</span>INTL CS Lead · VEP lead · Initiative owners</div>
+            <div style="font-size:11px;color:var(--txm)"><span style="font-weight:700;color:var(--ib-dk)">Cadence &nbsp;</span>Quarterly ask cycle + ad hoc</div>
+          </div>
+        </div>
+        <div style="background:var(--off);border-top:1px solid var(--bdr);padding:12px 20px 12px 24px;display:flex;flex-wrap:wrap;gap:8px">
+          <span style="font-size:11px;font-weight:600;color:var(--txm);margin-right:4px">On the agenda:</span>
+          <span class="tag t1">Smarter SER routing engine</span>
+          <span class="tag t1">CHS stall detection</span>
+          <span class="tag t1">Group AO scheduling (OICU/SFDC)</span>
+          <span class="tag t1">AI coaching &amp; dynamic scripting</span>
+        </div>
+      </div>
+
+      <!-- L&D FORUM -->
+      <div style="background:var(--white);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)">
+        <div style="padding:16px 20px;border-left:4px solid #3949AB;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="flex:1;min-width:240px">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#3949AB;margin-bottom:5px">L&amp;D Forum</div>
+            <div style="font-size:15px;font-weight:800;color:var(--ib-dk);margin-bottom:6px;letter-spacing:-.01em">Learning &amp; Development</div>
+            <div style="font-size:12px;color:var(--txm);line-height:1.6">Coordinates expert readiness across product releases, new programmes, and capability building. Ensures training materials, battle cards, and onboarding content are ready before any INTL launch — and that new capabilities (IIM, PSM) have structured enablement from day one.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:180px">
+            <div style="font-size:11px;color:var(--txm)"><span style="font-weight:700;color:var(--ib-dk)">Who &nbsp;</span>L&amp;D lead · Regional leads · Intuit Academy</div>
+            <div style="font-size:11px;color:var(--txm)"><span style="font-weight:700;color:var(--ib-dk)">Cadence &nbsp;</span>Monthly + release-triggered</div>
+          </div>
+        </div>
+        <div style="background:var(--off);border-top:1px solid var(--bdr);padding:12px 20px 12px 24px;display:flex;flex-wrap:wrap;gap:8px">
+          <span style="font-size:11px;font-weight:600;color:var(--txm);margin-right:4px">On the agenda:</span>
+          <span class="tag t2">Expert readiness for product releases</span>
+          <span class="tag t2">Global QBO New Hire Training rebuild</span>
+          <span class="tag t2">Advanced positioning battle cards</span>
+          <span class="tag t2">IIM &amp; PSM specialist enablement</span>
+        </div>
+      </div>
+
+      <!-- ROUTING FORUM -->
+      <div style="background:var(--white);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)">
+        <div style="padding:16px 20px;border-left:4px solid var(--sp);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="flex:1;min-width:240px">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--sp);margin-bottom:5px">Routing Forum</div>
+            <div style="font-size:15px;font-weight:800;color:var(--ib-dk);margin-bottom:6px;letter-spacing:-.01em">Contact Routing &amp; Expert Assignment</div>
+            <div style="font-size:12px;color:var(--txm);line-height:1.6">Governs how contacts are routed to experts and how routing logic evolves as we build towards the Smarter SER matching engine. Also covers the Snowball model — routing repeat contacts to top-performing experts — and the expert profile standardisation that underpins consistent routing across markets.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:180px">
+            <div style="font-size:11px;color:var(--txm)"><span style="font-weight:700;color:var(--ib-dk)">Who &nbsp;</span>Service Delivery lead · Analytics · VEP</div>
+            <div style="font-size:11px;color:var(--txm)"><span style="font-weight:700;color:var(--ib-dk)">Cadence &nbsp;</span>Monthly</div>
+          </div>
+        </div>
+        <div style="background:var(--off);border-top:1px solid var(--bdr);padding:12px 20px 12px 24px;display:flex;flex-wrap:wrap;gap:8px">
+          <span style="font-size:11px;font-weight:600;color:var(--txm);margin-right:4px">On the agenda:</span>
+          <span class="tag t3">Dynamic Attribute-Based Routing</span>
+          <span class="tag t3">Snowball expansion across markets</span>
+          <span class="tag t3">Expert profile standardisation</span>
+          <span class="tag t3">Omni deflection impact on contact mix</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="footer"><span class="fwm">INTUIT</span>International Customer Success · FY27 Strategy Hub · Internal Use Only</div>
+</div>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function toggleAcc(id){
+  var body=document.getElementById('acc-'+id);
+  var chev=document.getElementById('chev-'+id);
+  var head=chev.closest('.acc-head');
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  chev.classList.toggle('open',!isOpen);
+  head.classList.toggle('open',!isOpen);
+}
+</script>
+</body>
+</html>
